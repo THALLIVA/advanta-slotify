@@ -14,8 +14,23 @@ import Analytics from "@/pages/Analytics";
 import AuctionPlace from "@/pages/AuctionPlace";
 import NotFound from "@/pages/NotFound";
 
-const queryClient = new QueryClient();
+/**
+ * Create a QueryClient instance for React Query
+ * This handles data fetching, caching, and state management
+ */
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      refetchOnWindowFocus: import.meta.env.PROD, // Only in production
+    },
+  },
+});
 
+/**
+ * App component
+ * Main application component that sets up providers and routing
+ */
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>

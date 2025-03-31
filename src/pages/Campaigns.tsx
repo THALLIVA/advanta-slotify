@@ -1,4 +1,5 @@
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,7 +20,12 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { BarChart, FileText, Plus } from "lucide-react";
+import NewCampaignModal from "@/components/campaigns/NewCampaignModal";
 
+/**
+ * Sample campaign data
+ * In a real application, this would come from an API or database
+ */
 const campaigns = [
   {
     id: "CAM-001",
@@ -59,19 +65,30 @@ const campaigns = [
   },
 ];
 
+/**
+ * Campaigns component
+ * Displays campaign list and summary information
+ */
 const Campaigns = () => {
+  // State for new campaign modal
+  const [isNewCampaignModalOpen, setIsNewCampaignModalOpen] = useState(false);
+  
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">My Campaigns</h1>
-        <Button className="flex gap-1.5">
+        <h1 className="text-2xl font-semibold animate-fade-in">My Campaigns</h1>
+        <Button 
+          className="flex gap-1.5 animate-fade-in hover-scale" 
+          onClick={() => setIsNewCampaignModalOpen(true)}
+        >
           <Plus size={18} />
           New Campaign
         </Button>
       </div>
 
+      {/* Campaign summary cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card>
+        <Card className="animate-fade-in hover-scale transition-all duration-300 hover:shadow-md">
           <CardHeader className="pb-2">
             <CardTitle className="text-xl">5</CardTitle>
             <CardDescription>Total Campaigns</CardDescription>
@@ -83,7 +100,7 @@ const Campaigns = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="animate-fade-in hover-scale transition-all duration-300 hover:shadow-md delay-100">
           <CardHeader className="pb-2">
             <CardTitle className="text-xl">₹950,000</CardTitle>
             <CardDescription>Total Budget</CardDescription>
@@ -95,7 +112,7 @@ const Campaigns = () => {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="animate-fade-in hover-scale transition-all duration-300 hover:shadow-md delay-200">
           <CardHeader className="pb-2">
             <CardTitle className="text-xl">15</CardTitle>
             <CardDescription>Media Bookings</CardDescription>
@@ -108,15 +125,16 @@ const Campaigns = () => {
         </Card>
       </div>
 
-      <Card>
+      {/* Campaign list */}
+      <Card className="animate-fade-in transition-all duration-300 hover:shadow-md delay-300">
         <CardHeader className="pb-2 flex flex-row items-center justify-between">
           <CardTitle>Campaign List</CardTitle>
           <div className="flex gap-2">
-            <Button variant="outline" size="sm" className="h-8 gap-1">
+            <Button variant="outline" size="sm" className="h-8 gap-1 hover-scale">
               <FileText size={14} />
               Export
             </Button>
-            <Button variant="outline" size="sm" className="h-8 gap-1">
+            <Button variant="outline" size="sm" className="h-8 gap-1 hover-scale">
               <BarChart size={14} />
               Analytics
             </Button>
@@ -136,7 +154,10 @@ const Campaigns = () => {
             </TableHeader>
             <TableBody>
               {campaigns.map((campaign) => (
-                <TableRow key={campaign.id}>
+                <TableRow 
+                  key={campaign.id}
+                  className="hover-scale cursor-pointer transition-colors"
+                >
                   <TableCell className="font-medium">{campaign.id}</TableCell>
                   <TableCell>{campaign.name}</TableCell>
                   <TableCell>
@@ -164,6 +185,12 @@ const Campaigns = () => {
           </Table>
         </CardContent>
       </Card>
+
+      {/* New Campaign Modal */}
+      <NewCampaignModal 
+        open={isNewCampaignModalOpen} 
+        setOpen={setIsNewCampaignModalOpen} 
+      />
     </div>
   );
 };

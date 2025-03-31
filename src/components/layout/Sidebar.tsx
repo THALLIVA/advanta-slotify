@@ -11,6 +11,10 @@ import {
   Gavel
 } from "lucide-react";
 
+/**
+ * SidebarLink component
+ * Renders a navigation link in the sidebar with active state styling
+ */
 interface SidebarLinkProps {
   to: string;
   icon: React.ReactNode;
@@ -22,7 +26,7 @@ const SidebarLink = ({ to, icon, label }: SidebarLinkProps) => {
     <NavLink
       to={to}
       className={({ isActive }) =>
-        `flex items-center gap-3 py-3 px-4 text-sm transition-colors ${
+        `flex items-center gap-3 py-3 px-4 text-sm transition-all duration-200 hover-scale ${
           isActive
             ? "bg-advanta-darkblue/10 text-advanta-blue font-medium"
             : "text-white/80 hover:text-white hover:bg-advanta-darkblue/20"
@@ -35,15 +39,19 @@ const SidebarLink = ({ to, icon, label }: SidebarLinkProps) => {
   );
 };
 
+/**
+ * Sidebar component
+ * Main navigation sidebar for the application
+ */
 const Sidebar = () => {
   return (
     <aside className="h-screen bg-advanta-darkblue fixed left-0 top-0 w-56 z-10 flex flex-col">
-      <div className="p-4 pb-2">
+      <div className="p-4 pb-2 animate-fade-in">
         <h1 className="text-white text-xl font-bold">ADVANTA</h1>
         <p className="text-white/60 text-xs">The Traditional Media Marketplace</p>
       </div>
       
-      <nav className="flex-1 py-6">
+      <nav className="flex-1 py-6 stagger-children">
         <SidebarLink to="/" icon={<LayoutDashboard size={18} />} label="Dashboard" />
         <SidebarLink to="/media-search" icon={<Search size={18} />} label="Media Search" />
         <SidebarLink to="/campaigns" icon={<BarChart size={18} />} label="My Campaigns" />
