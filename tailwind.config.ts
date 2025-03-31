@@ -65,12 +65,15 @@ export default {
 				},
 				advanta: {
 					blue: "#4285F4",
-					darkblue: "#1F2937",
+					darkblue: "#1A1F2C",
 					green: "#4CAF50",
 					amber: "#F59E0B",
 					red: "#EF4444",
 					lightgray: "#F9FAFB",
-					gray: "#E5E7EB"
+					gray: "#E5E7EB",
+					purple: "#8B5CF6",
+					teal: "#0EA5E9",
+					darkpurple: "#6E59A5"
 				}
 			},
 			borderRadius: {
@@ -94,11 +97,20 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'pulse-glow': {
+					'0%, 100%': {
+						boxShadow: '0 0 5px 0px rgba(139, 92, 246, 0.5)'
+					},
+					'50%': {
+						boxShadow: '0 0 20px 5px rgba(139, 92, 246, 0.7)'
+					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-glow': 'pulse-glow 2s infinite'
 			}
 		}
 	},
