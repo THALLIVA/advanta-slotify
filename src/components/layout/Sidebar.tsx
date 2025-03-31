@@ -8,7 +8,7 @@ import {
   Settings, 
   Image,
   PieChart,
-  FilePlus
+  Gavel
 } from "lucide-react";
 
 interface SidebarLinkProps {
@@ -50,7 +50,7 @@ const Sidebar = () => {
         <SidebarLink to="/orders" icon={<FileText size={18} />} label="Orders" />
         <SidebarLink to="/ads-bank" icon={<Image size={18} />} label="Ads Bank" />
         <SidebarLink to="/analytics" icon={<PieChart size={18} />} label="Analytics" />
-        <SidebarLink to="/reports" icon={<FilePlus size={18} />} label="Reports" />
+        <SidebarLink to="/auction-place" icon={<Gavel size={18} />} label="Auction Place" />
         <SidebarLink to="/settings" icon={<Settings size={18} />} label="Settings" />
       </nav>
     </aside>

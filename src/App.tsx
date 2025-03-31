@@ -11,6 +11,7 @@ import Campaigns from "@/pages/Campaigns";
 import Orders from "@/pages/Orders";
 import AdsBank from "@/pages/AdsBank";
 import Analytics from "@/pages/Analytics";
+import AuctionPlace from "@/pages/AuctionPlace";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App = () => (
             <Route path="/orders" element={<Orders />} />
             <Route path="/ads-bank" element={<AdsBank />} />
             <Route path="/analytics" element={<Analytics />} />
+            <Route path="/auction-place" element={<AuctionPlace />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
