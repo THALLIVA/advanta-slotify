@@ -21,7 +21,7 @@ interface NewCampaignModalProps {
 const NewCampaignModal = ({ open, setOpen }: NewCampaignModalProps) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto neo-border bg-card">
+      <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-semibold">Create New Campaign</DialogTitle>
           <DialogDescription>

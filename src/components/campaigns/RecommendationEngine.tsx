@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
-import { Check, Info, BarChart3, Users, Target, Banknote, Download } from "lucide-react";
+import { Check, Info, BarChart3, Users, Target, Banknote } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -16,8 +16,6 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { useTheme } from "@/providers/ThemeProvider";
-import * as XLSX from "xlsx";
 
 // Define the format recommendation interface
 interface FormatRecommendation {
@@ -35,9 +33,6 @@ interface FormatRecommendation {
  * Provides AI-powered media format recommendations based on campaign parameters
  */
 const RecommendationEngine = () => {
-  // Get current currency from theme context
-  const { currencySymbol } = useTheme();
-  
   // State for form inputs
   const [budget, setBudget] = useState<number>(250000);
   const [audienceAge, setAudienceAge] = useState<string>("25-34");
@@ -68,7 +63,7 @@ const RecommendationEngine = () => {
           id: "social",
           format: "Social Media",
           suitability: 95,
-          costPerImpression: `${currencySymbol}0.50`,
+          costPerImpression: "₹0.50",
           estimatedReach: formatNumber(targetImpressions * 1.2),
           description: "High engagement with younger audiences through Instagram, Facebook and Twitter ads.",
           icon: <Users className="h-8 w-8 text-blue-500" />,
@@ -78,7 +73,7 @@ const RecommendationEngine = () => {
           id: "digital",
           format: "Digital Display",
           suitability: 85,
-          costPerImpression: `${currencySymbol}0.65`,
+          costPerImpression: "₹0.65",
           estimatedReach: formatNumber(targetImpressions * 1.1),
           description: "Banner ads and sponsored content on high-traffic websites.",
           icon: <BarChart3 className="h-8 w-8 text-purple-500" />,
@@ -91,7 +86,7 @@ const RecommendationEngine = () => {
           id: "print",
           format: "Print Media",
           suitability: audienceAge === "45+" ? 90 : 70,
-          costPerImpression: `${currencySymbol}0.85`,
+          costPerImpression: "₹0.85",
           estimatedReach: formatNumber(targetImpressions * 0.8),
           description: "Newspaper and magazine ads for brand credibility and wide reach.",
           icon: <Info className="h-8 w-8 text-gray-500" />,
@@ -104,7 +99,7 @@ const RecommendationEngine = () => {
           id: "outdoor",
           format: "Billboard & OOH",
           suitability: region === "metro" ? 80 : 65,
-          costPerImpression: `${currencySymbol}1.25`,
+          costPerImpression: "₹1.25",
           estimatedReach: formatNumber(targetImpressions * 0.75),
           description: "High-visibility outdoor advertising at strategic locations.",
           icon: <Target className="h-8 w-8 text-green-500" />,
@@ -117,7 +112,7 @@ const RecommendationEngine = () => {
           id: "tv",
           format: "Television",
           suitability: 75,
-          costPerImpression: `${currencySymbol}1.75`,
+          costPerImpression: "₹1.75",
           estimatedReach: formatNumber(targetImpressions * 0.9),
           description: "Prime time and targeted TV slots for maximum visibility.",
           icon: <Banknote className="h-8 w-8 text-amber-500" />,
@@ -150,65 +145,12 @@ const RecommendationEngine = () => {
    * Format budget for display
    */
   const formatBudget = (value: number): string => {
-    return `${currencySymbol}${(value / 1000).toFixed(0)}K`;
-  };
-  
-  /**
-   * Generate and download Excel file with recommendations
-   */
-  const downloadRecommendations = () => {
-    if (recommendations.length === 0) {
-      toast({
-        title: "No recommendations to download",
-        description: "Please generate recommendations first.",
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    // Create worksheet with input parameters
-    const inputData = [
-      ["Campaign Parameters", ""],
-      ["Budget", formatBudget(budget)],
-      ["Target Audience Age", audienceAge],
-      ["Target Impressions", formatNumber(targetImpressions)],
-      ["Campaign Objective", objective],
-      ["Target Region", region],
-      ["", ""],
-      ["Recommendations", ""],
-      ["Format", "Suitability", "Cost Per Impression", "Estimated Reach", "Description"]
-    ];
-    
-    // Add recommendation data
-    recommendations.forEach(rec => {
-      inputData.push([
-        rec.format,
-        `${rec.suitability}%`,
-        rec.costPerImpression,
-        rec.estimatedReach,
-        rec.description
-      ]);
-    });
-    
-    // Create a new workbook
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.aoa_to_sheet(inputData);
-    
-    // Add the worksheet to the workbook
-    XLSX.utils.book_append_sheet(wb, ws, "Campaign Recommendations");
-    
-    // Generate Excel file and trigger download
-    XLSX.writeFile(wb, "campaign_recommendations.xlsx");
-    
-    toast({
-      title: "Download complete",
-      description: "Recommendations have been exported to Excel.",
-    });
+    return `₹${(value / 1000).toFixed(0)}K`;
   };
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <Card className="neo-border">
+      <Card>
         <CardHeader>
           <CardTitle className="text-xl">Campaign Recommendation Engine</CardTitle>
         </CardHeader>
@@ -229,8 +171,8 @@ const RecommendationEngine = () => {
               className="hover-scale"
             />
             <div className="flex justify-between text-xs text-muted-foreground">
-              <span>{currencySymbol}50K</span>
-              <span>{currencySymbol}1M</span>
+              <span>₹50K</span>
+              <span>₹1M</span>
             </div>
           </div>
 
@@ -318,7 +260,7 @@ const RecommendationEngine = () => {
 
       {/* Recommendations section */}
       {recommendations.length > 0 && (
-        <Card className="animate-fade-in neo-border">
+        <Card className="animate-fade-in">
           <CardHeader>
             <CardTitle className="text-xl">Recommended Media Formats</CardTitle>
           </CardHeader>
@@ -326,10 +268,10 @@ const RecommendationEngine = () => {
             {recommendations.map((rec) => (
               <div 
                 key={rec.id} 
-                className="p-4 border rounded-lg transition-all duration-300 hover:shadow-md hover-scale card-hover-effect"
+                className="p-4 border rounded-lg transition-all duration-300 hover:shadow-md hover-scale"
               >
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 rounded-full p-2 bg-primary/10">
+                  <div className="flex-shrink-0 rounded-full p-2 bg-gray-100">
                     {rec.icon}
                   </div>
                   <div className="flex-1 space-y-2">
@@ -361,14 +303,7 @@ const RecommendationEngine = () => {
             ))}
           </CardContent>
           <CardFooter className="flex justify-between">
-            <Button 
-              variant="outline" 
-              className="hover-scale flex gap-2"
-              onClick={downloadRecommendations}
-            >
-              <Download size={16} />
-              Save Recommendations
-            </Button>
+            <Button variant="outline" className="hover-scale">Save Recommendations</Button>
             <Button className="hover-scale">Create Campaign with These Formats</Button>
           </CardFooter>
         </Card>
