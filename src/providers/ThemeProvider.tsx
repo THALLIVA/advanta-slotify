@@ -1,5 +1,4 @@
-
-import React, { createContext, useContext, useEffect, useState } from "react";
+import * as React from "react";
 
 type Theme = "dark" | "light";
 type ThemeContextType = {
@@ -7,16 +6,31 @@ type ThemeContextType = {
   setTheme: (theme: Theme) => void;
 };
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = React.createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [theme, setTheme] = React.useState<Theme>(() => {
+    // Check if there's a saved theme in localStorage
+    const savedTheme = localStorage.getItem("theme") as Theme;
+    
+    // If there's a saved theme, use it
+    if (savedTheme === "dark" || savedTheme === "light") {
+      return savedTheme;
+    }
+    
+    // Otherwise, check for system preference
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    return prefersDark ? "dark" : "light";
+  });
 
-  useEffect(() => {
+  React.useEffect(() => {
+    // Save theme preference to localStorage
+    localStorage.setItem("theme", theme);
+    
     // Apply theme to the document element
     const root = window.document.documentElement;
     
@@ -27,10 +41,10 @@ export function ThemeProvider({
     root.classList.add(theme);
   }, [theme]);
 
-  const value = {
+  const value = React.useMemo(() => ({
     theme,
     setTheme,
-  };
+  }), [theme]);
 
   return (
     <ThemeContext.Provider value={value}>
@@ -41,7 +55,7 @@ export function ThemeProvider({
 
 // Custom hook for using the theme
 export const useTheme = (): ThemeContextType => {
-  const context = useContext(ThemeContext);
+  const context = React.useContext(ThemeContext);
   
   if (context === undefined) {
     throw new Error("useTheme must be used within a ThemeProvider");
