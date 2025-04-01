@@ -236,7 +236,7 @@ const AuctionPlace = () => {
     
     toast({
       title: "Bid Placed",
-      description: `Your bid of $${bidAmount.toLocaleString()} for "${slot.title}" has been placed.`,
+      description: `Your bid of ₹${bidAmount.toLocaleString()} for "${slot.title}" has been placed.`,
     });
   };
 
@@ -254,7 +254,7 @@ const AuctionPlace = () => {
     
     toast({
       title: "Bid Increased",
-      description: `Your bid has been increased to $${newBid.toLocaleString()}.`,
+      description: `Your bid has been increased to ₹${newBid.toLocaleString()}.`,
     });
   };
 
@@ -353,7 +353,7 @@ const AuctionPlace = () => {
                   <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pt-2 border-t">
                     <div>
                       <p className="text-sm text-muted-foreground">Current Bid</p>
-                      <p className="text-xl font-bold">${slot.currentBid.toLocaleString()}</p>
+                      <p className="text-xl font-bold">₹{slot.currentBid.toLocaleString()}</p>
                     </div>
                     
                     <div className="flex gap-2 w-full md:w-auto">
@@ -412,12 +412,12 @@ const AuctionPlace = () => {
                         <div className="font-medium">{bid.title}</div>
                         <div className="text-sm text-muted-foreground">{bid.publisher}</div>
                       </TableCell>
-                      <TableCell>${bid.myBid?.toLocaleString()}</TableCell>
+                      <TableCell>₹{bid.myBid?.toLocaleString()}</TableCell>
                       <TableCell>
                         {bid.myBid !== bid.currentBid ? (
                           <span className="text-red-500 font-medium">${bid.currentBid.toLocaleString()}</span>
                         ) : (
-                          <span>${bid.currentBid.toLocaleString()}</span>
+                          <span>₹{bid.currentBid.toLocaleString()}</span>
                         )}
                       </TableCell>
                       <TableCell>{renderBidStatusBadge(bid.bidStatus || "Pending")}</TableCell>

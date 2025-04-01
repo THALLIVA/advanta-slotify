@@ -48,7 +48,7 @@ const Sidebar = () => {
     <aside className="h-screen bg-advanta-darkblue fixed left-0 top-0 w-56 z-10 flex flex-col">
       <div className="p-4 pb-2 animate-fade-in">
         <h1 className="text-white text-xl font-bold">ADVANTA</h1>
-        <p className="text-white/60 text-xs">The Traditional Media Marketplace</p>
+        <p className="text-white/60 text-xs">Next-Gen Media Intelligence Platform</p>
       </div>
       
       <nav className="flex-1 py-6 stagger-children">

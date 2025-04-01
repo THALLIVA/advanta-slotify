@@ -52,11 +52,11 @@ const salesData = [
 
 // Dummy data for campaign performance
 const campaignData = [
-  { id: 1, campaign: "Summer Sale TV", spend: "$45,000", roi: "3.2x", status: "High Performer" },
-  { id: 2, campaign: "Radio Promo", spend: "$12,000", roi: "1.8x", status: "Average" },
-  { id: 3, campaign: "Holiday Print", spend: "$28,000", roi: "2.1x", status: "Average" },
-  { id: 4, campaign: "Digital Q2", spend: "$35,000", roi: "4.5x", status: "Top Performer" },
-  { id: 5, campaign: "Brand Awareness", spend: "$65,000", roi: "1.2x", status: "Underperforming" },
+  { id: 1, campaign: "Summer Sale TV", spend: "₹45,000", roi: "3.2x", status: "High Performer" },
+  { id: 2, campaign: "Radio Promo", spend: "₹12,000", roi: "1.8x", status: "Average" },
+  { id: 3, campaign: "Holiday Print", spend: "₹28,000", roi: "2.1x", status: "Average" },
+  { id: 4, campaign: "Digital Q2", spend: "₹35,000", roi: "4.5x", status: "Top Performer" },
+  { id: 5, campaign: "Brand Awareness", spend: "₹65,000", roi: "1.2x", status: "Underperforming" },
 ];
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
