@@ -9,6 +9,8 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { useCurrency } from "@/providers/CurrencyProvider";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface Order {
   id: string;
@@ -23,6 +25,9 @@ interface RecentOrdersTableProps {
 }
 
 const RecentOrdersTable = ({ orders }: RecentOrdersTableProps) => {
+  const { formatCurrency } = useCurrency();
+  const isMobile = useIsMobile();
+  
   return (
     <div className="bg-white dark:bg-card rounded-md shadow-sm">
       <div className="p-4 border-b dark:border-border">
@@ -33,7 +38,7 @@ const RecentOrdersTable = ({ orders }: RecentOrdersTableProps) => {
           <TableHeader>
             <TableRow>
               <TableHead>Order ID</TableHead>
-              <TableHead>Media Type</TableHead>
+              {!isMobile && <TableHead>Media Type</TableHead>}
               <TableHead>Outlet</TableHead>
               <TableHead>Amount</TableHead>
               <TableHead>Status</TableHead>
@@ -43,9 +48,9 @@ const RecentOrdersTable = ({ orders }: RecentOrdersTableProps) => {
             {orders.map((order) => (
               <TableRow key={order.id}>
                 <TableCell className="font-medium">{order.id}</TableCell>
-                <TableCell>{order.mediaType}</TableCell>
+                {!isMobile && <TableCell>{order.mediaType}</TableCell>}
                 <TableCell>{order.outlet}</TableCell>
-                <TableCell>₹{order.amount}</TableCell>
+                <TableCell>{formatCurrency(order.amount)}</TableCell>
                 <TableCell>
                   <Badge
                     className={cn(

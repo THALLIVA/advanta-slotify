@@ -1,6 +1,7 @@
 
 import React from "react";
 import { useTheme } from "@/providers/ThemeProvider";
+import { useCurrency, CURRENCIES } from "@/providers/CurrencyProvider";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
@@ -8,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 const Settings = () => {
   const { theme, setTheme } = useTheme();
+  const { currency, setCurrency } = useCurrency();
 
   return (
     <div className="space-y-6">
@@ -43,7 +45,7 @@ const Settings = () => {
         <CardContent>
           <div className="space-y-2">
             <Label htmlFor="currency">Currency</Label>
-            <Select defaultValue="inr">
+            <Select value={currency.code} onValueChange={(value) => setCurrency(value as keyof typeof CURRENCIES)}>
               <SelectTrigger id="currency" className="w-full md:w-[180px]">
                 <SelectValue placeholder="Select currency" />
               </SelectTrigger>
