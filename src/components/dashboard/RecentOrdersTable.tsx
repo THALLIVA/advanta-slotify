@@ -24,9 +24,9 @@ interface RecentOrdersTableProps {
 
 const RecentOrdersTable = ({ orders }: RecentOrdersTableProps) => {
   return (
-    <div className="bg-white rounded-md shadow-sm">
-      <div className="p-4 border-b">
-        <h2 className="text-lg font-medium">Recent Orders</h2>
+    <div className="bg-white dark:bg-card rounded-md shadow-sm">
+      <div className="p-4 border-b dark:border-border">
+        <h2 className="text-lg font-medium dark:text-foreground">Recent Orders</h2>
       </div>
       <div className="overflow-x-auto">
         <Table>
@@ -51,8 +51,8 @@ const RecentOrdersTable = ({ orders }: RecentOrdersTableProps) => {
                     className={cn(
                       "font-normal",
                       order.status === "Completed"
-                        ? "bg-green-100 text-green-800 hover:bg-green-100"
-                        : "bg-amber-100 text-amber-800 hover:bg-amber-100"
+                        ? "bg-green-100 text-green-800 hover:bg-green-100 dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/40"
+                        : "bg-amber-100 text-amber-800 hover:bg-amber-100 dark:bg-amber-900/30 dark:text-amber-400 dark:hover:bg-amber-900/40"
                     )}
                   >
                     {order.status}

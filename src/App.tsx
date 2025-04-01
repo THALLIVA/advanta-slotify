@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/providers/ThemeProvider";
+import { SidebarProvider } from "@/hooks/use-sidebar";
 import MainLayout from "@/components/layout/MainLayout";
 import Dashboard from "@/pages/Dashboard";
 import MediaSearch from "@/pages/MediaSearch";
@@ -37,23 +38,25 @@ const App = () => (
   <ThemeProvider>
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route element={<MainLayout />}>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/media-search" element={<MediaSearch />} />
-              <Route path="/campaigns" element={<Campaigns />} />
-              <Route path="/orders" element={<Orders />} />
-              <Route path="/ads-bank" element={<AdsBank />} />
-              <Route path="/analytics" element={<Analytics />} />
-              <Route path="/auction-place" element={<AuctionPlace />} />
-              <Route path="/settings" element={<Settings />} />
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+        <SidebarProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route element={<MainLayout />}>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/media-search" element={<MediaSearch />} />
+                <Route path="/campaigns" element={<Campaigns />} />
+                <Route path="/orders" element={<Orders />} />
+                <Route path="/ads-bank" element={<AdsBank />} />
+                <Route path="/analytics" element={<Analytics />} />
+                <Route path="/auction-place" element={<AuctionPlace />} />
+                <Route path="/settings" element={<Settings />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </SidebarProvider>
       </TooltipProvider>
     </QueryClientProvider>
   </ThemeProvider>
