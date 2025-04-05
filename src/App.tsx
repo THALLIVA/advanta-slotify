@@ -76,11 +76,8 @@ const App = () => (
                     </Route>
                   </Route>
                   
-                  {/* Redirect / to /dashboard when logged in */}
-                  <Route 
-                    path="/" 
-                    element={<Navigate to="/dashboard" replace />} 
-                  />
+                  {/* Remove the redirect that might be causing conflicts */}
+                  {/* Redirect to dashboard will happen from individual components */}
                   
                   <Route path="*" element={<NotFound />} />
                 </Routes>
