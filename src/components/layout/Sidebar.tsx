@@ -80,7 +80,7 @@ const Sidebar = () => {
       </div>
       
       <nav className="flex-1 py-6 stagger-children">
-        <SidebarLink to="/" icon={<LayoutDashboard size={18} />} label="Dashboard" />
+        <SidebarLink to="/dashboard" icon={<LayoutDashboard size={18} />} label="Dashboard" />
         <SidebarLink to="/media-search" icon={<Search size={18} />} label="Media Search" />
         <SidebarLink to="/campaigns" icon={<BarChart size={18} />} label="My Campaigns" />
         <SidebarLink to="/orders" icon={<FileText size={18} />} label="Orders" />
