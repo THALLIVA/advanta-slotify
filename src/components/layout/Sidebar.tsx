@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> source-repo/main
 import { NavLink } from "react-router-dom";
 import { 
   LayoutDashboard, 
@@ -107,8 +103,4 @@ const Sidebar = () => {
   );
 };
 
-<<<<<<< HEAD
 export default Sidebar;
-=======
-export default Sidebar;
->>>>>>> source-repo/main

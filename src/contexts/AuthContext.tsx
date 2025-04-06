@@ -1,15 +1,8 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> source-repo/main
 import { createContext, useContext, useEffect, useState } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-<<<<<<< HEAD
-=======
 import { Tables } from "@/integrations/supabase/types";
->>>>>>> source-repo/main
 
 interface AuthContextType {
   session: Session | null;
@@ -24,8 +17,6 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-<<<<<<< HEAD
-=======
 // Create a broadcast channel for syncing auth state
 const authChannel = typeof window !== 'undefined' ? new BroadcastChannel('auth_channel') : null;
 
@@ -33,51 +24,12 @@ const authChannel = typeof window !== 'undefined' ? new BroadcastChannel('auth_c
 const LAST_AUTH_UPDATE_KEY = 'lastAuthUpdate';
 const SESSION_KEY = 'supabase.auth.token';
 
->>>>>>> source-repo/main
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
-<<<<<<< HEAD
-  useEffect(() => {
-    // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, currentSession) => {
-        setSession(currentSession);
-        setUser(currentSession?.user ?? null);
-        
-        if (event === 'SIGNED_OUT') {
-          toast({
-            title: "Signed out",
-            description: "You have been signed out successfully."
-          });
-        } else if (event === 'SIGNED_IN') {
-          toast({
-            title: "Signed in",
-            description: "Welcome back to Advanta!"
-          });
-        }
-      }
-    );
-
-    // THEN check for existing session
-    supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
-      setSession(currentSession);
-      setUser(currentSession?.user ?? null);
-      setLoading(false);
-    });
-
-    // Set up session expiry check
-    const checkSessionExpiry = () => {
-      if (session && session.expires_at) {
-        const expiryTime = session.expires_at * 1000; // Convert to milliseconds
-        const now = Date.now();
-        
-        if (expiryTime < now) {
-          supabase.auth.signOut();
-=======
   // Function to handle auth state updates
   const handleAuthStateChange = async (currentSession: Session | null, event?: string) => {
     setSession(currentSession);
@@ -191,7 +143,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const expiryTime = session.expires_at * 1000;
         if (Date.now() >= expiryTime) {
           await supabase.auth.signOut();
->>>>>>> source-repo/main
           toast({
             title: "Session expired",
             description: "Your session has expired. Please sign in again.",
@@ -201,15 +152,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     };
 
-<<<<<<< HEAD
-    const interval = setInterval(checkSessionExpiry, 1000 * 60); // Check every minute
-
-    return () => {
-      subscription.unsubscribe();
-      clearInterval(interval);
-    };
-  }, [session, toast]);
-=======
     const interval = setInterval(checkSessionExpiry, 1000 * 30); // Check every 30 seconds
 
     // Cleanup
@@ -223,7 +165,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       clearInterval(interval);
     };
   }, [toast]);
->>>>>>> source-repo/main
 
   const signIn = async (email: string, password: string) => {
     try {
@@ -270,10 +211,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signOut = async () => {
     try {
       await supabase.auth.signOut();
-<<<<<<< HEAD
-=======
       localStorage.removeItem(SESSION_KEY);
->>>>>>> source-repo/main
     } catch (error: any) {
       toast({
         title: "Error signing out",
@@ -344,8 +282,4 @@ export function useAuth() {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> source-repo/main

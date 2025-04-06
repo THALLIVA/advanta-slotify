@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> source-repo/main
 import { useAuth } from "@/contexts/AuthContext";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
@@ -73,8 +69,4 @@ const Header = ({ isCollapsed }: HeaderProps) => {
   );
 };
 
-<<<<<<< HEAD
 export default Header;
-=======
-export default Header;
->>>>>>> source-repo/main
