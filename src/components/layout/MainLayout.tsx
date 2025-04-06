@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> source-repo/main
 import { Toaster } from "@/components/ui/toaster";
 import { Outlet } from "react-router-dom";
 import { useSidebar } from "@/hooks/use-sidebar";
@@ -28,4 +31,8 @@ const MainLayout = () => {
   );
 };
 
+<<<<<<< HEAD
 export default MainLayout;
+=======
+export default MainLayout;
+>>>>>>> source-repo/main

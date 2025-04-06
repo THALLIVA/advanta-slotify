@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> source-repo/main
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -53,14 +56,22 @@ const App = () => (
               <Sonner />
               <BrowserRouter>
                 <Routes>
+<<<<<<< HEAD
                   {/* Public Welcome Page */}
                   <Route path="/" element={<Welcome />} />
                   
                   {/* Auth Routes */}
+=======
+                  {/* Public Routes */}
+>>>>>>> source-repo/main
                   <Route path="/auth/login" element={<Login />} />
                   <Route path="/auth/signup" element={<Signup />} />
                   <Route path="/auth/forgot-password" element={<ForgotPassword />} />
                   <Route path="/auth/reset-password" element={<ResetPassword />} />
+<<<<<<< HEAD
+=======
+                  <Route path="/welcome" element={<Welcome />} />
+>>>>>>> source-repo/main
                   
                   {/* Protected Routes */}
                   <Route element={<ProtectedRoute />}>
@@ -76,9 +87,16 @@ const App = () => (
                     </Route>
                   </Route>
                   
+<<<<<<< HEAD
                   {/* Remove the redirect that might be causing conflicts */}
                   {/* Redirect to dashboard will happen from individual components */}
                   
+=======
+                  {/* Root redirect */}
+                  <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                  
+                  {/* 404 route */}
+>>>>>>> source-repo/main
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </BrowserRouter>
@@ -90,4 +108,8 @@ const App = () => (
   </ThemeProvider>
 );
 
+<<<<<<< HEAD
 export default App;
+=======
+export default App;
+>>>>>>> source-repo/main

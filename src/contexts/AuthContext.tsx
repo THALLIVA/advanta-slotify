@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> source-repo/main
 import { createContext, useContext, useEffect, useState } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+<<<<<<< HEAD
+=======
+import { Tables } from "@/integrations/supabase/types";
+>>>>>>> source-repo/main
 
 interface AuthContextType {
   session: Session | null;
@@ -17,12 +24,23 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+<<<<<<< HEAD
+=======
+// Create a broadcast channel for syncing auth state
+const authChannel = typeof window !== 'undefined' ? new BroadcastChannel('auth_channel') : null;
+
+// Create a storage key for the last auth update timestamp
+const LAST_AUTH_UPDATE_KEY = 'lastAuthUpdate';
+const SESSION_KEY = 'supabase.auth.token';
+
+>>>>>>> source-repo/main
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
+<<<<<<< HEAD
   useEffect(() => {
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -59,6 +77,121 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         
         if (expiryTime < now) {
           supabase.auth.signOut();
+=======
+  // Function to handle auth state updates
+  const handleAuthStateChange = async (currentSession: Session | null, event?: string) => {
+    setSession(currentSession);
+    setUser(currentSession?.user ?? null);
+
+    // Store the session in localStorage
+    if (currentSession) {
+      localStorage.setItem(SESSION_KEY, JSON.stringify(currentSession));
+    } else {
+      localStorage.removeItem(SESSION_KEY);
+    }
+
+    // Broadcast the auth state change to other tabs
+    if (event && authChannel) {
+      const timestamp = Date.now();
+      localStorage.setItem(LAST_AUTH_UPDATE_KEY, timestamp.toString());
+      authChannel.postMessage({
+        type: event,
+        session: currentSession,
+        timestamp
+      });
+    }
+  };
+
+  // Initialize auth state
+  useEffect(() => {
+    let subscription: { unsubscribe: () => void } | null = null;
+
+    const initializeAuth = async () => {
+      try {
+        // Check for existing session
+        const { data: { session: initialSession } } = await supabase.auth.getSession();
+        
+        // If we have a session in localStorage but no active session, try to recover it
+        if (!initialSession) {
+          const storedSession = localStorage.getItem(SESSION_KEY);
+          if (storedSession) {
+            try {
+              const parsedSession = JSON.parse(storedSession);
+              if (parsedSession?.expires_at && parsedSession.expires_at * 1000 > Date.now()) {
+                await supabase.auth.setSession(parsedSession);
+              } else {
+                localStorage.removeItem(SESSION_KEY);
+              }
+            } catch (e) {
+              localStorage.removeItem(SESSION_KEY);
+            }
+          }
+        }
+
+        // Set up auth state listener
+        const { data: { subscription: sub } } = supabase.auth.onAuthStateChange(
+          async (event, currentSession) => {
+            await handleAuthStateChange(currentSession, event);
+            
+            if (event === 'SIGNED_OUT') {
+              toast({
+                title: "Signed out",
+                description: "You have been signed out successfully."
+              });
+            } else if (event === 'SIGNED_IN' && currentSession) {
+              toast({
+                title: "Signed in",
+                description: "Welcome back to Advanta!"
+              });
+            }
+          }
+        );
+
+        subscription = sub;
+        await handleAuthStateChange(initialSession);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error initializing auth:', error);
+        setLoading(false);
+      }
+    };
+
+    // Handle auth messages from other tabs
+    const handleAuthMessage = async (event: MessageEvent) => {
+      const { type, session: broadcastSession, timestamp } = event.data;
+      
+      // Check if this is the most recent update
+      const lastUpdate = parseInt(localStorage.getItem(LAST_AUTH_UPDATE_KEY) || '0');
+      if (timestamp <= lastUpdate) {
+        return;
+      }
+
+      localStorage.setItem(LAST_AUTH_UPDATE_KEY, timestamp.toString());
+
+      if (type === 'SIGNED_OUT') {
+        await handleAuthStateChange(null);
+        // Force refresh the page to ensure clean state
+        window.location.reload();
+      } else if (type === 'SIGNED_IN' && broadcastSession) {
+        await handleAuthStateChange(broadcastSession);
+      }
+    };
+
+    // Set up auth state synchronization
+    if (authChannel) {
+      authChannel.addEventListener('message', handleAuthMessage);
+    }
+
+    // Initialize auth
+    initializeAuth();
+
+    // Check session expiry periodically
+    const checkSessionExpiry = async () => {
+      if (session?.expires_at) {
+        const expiryTime = session.expires_at * 1000;
+        if (Date.now() >= expiryTime) {
+          await supabase.auth.signOut();
+>>>>>>> source-repo/main
           toast({
             title: "Session expired",
             description: "Your session has expired. Please sign in again.",
@@ -68,6 +201,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     };
 
+<<<<<<< HEAD
     const interval = setInterval(checkSessionExpiry, 1000 * 60); // Check every minute
 
     return () => {
@@ -75,6 +209,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       clearInterval(interval);
     };
   }, [session, toast]);
+=======
+    const interval = setInterval(checkSessionExpiry, 1000 * 30); // Check every 30 seconds
+
+    // Cleanup
+    return () => {
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+      if (authChannel) {
+        authChannel.removeEventListener('message', handleAuthMessage);
+      }
+      clearInterval(interval);
+    };
+  }, [toast]);
+>>>>>>> source-repo/main
 
   const signIn = async (email: string, password: string) => {
     try {
@@ -121,6 +270,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signOut = async () => {
     try {
       await supabase.auth.signOut();
+<<<<<<< HEAD
+=======
+      localStorage.removeItem(SESSION_KEY);
+>>>>>>> source-repo/main
     } catch (error: any) {
       toast({
         title: "Error signing out",
@@ -191,4 +344,8 @@ export function useAuth() {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> source-repo/main
